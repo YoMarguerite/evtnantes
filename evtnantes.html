@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>commits-example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+  	<div id="demo" class="container">
+      <h1 class="text-center">EvtNantes</h1>
+      <div v-for="event in events" class="card">
+          <div class="card-body">
+                {{ event.fields.adresse }}
+          </div>
+      </div>
+      
+	</div>
+	  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  	<script>
+  		var apiURL = 'https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_agenda-evenements-nantes-nantes-metropole&facet=emetteur&facet=rubrique&facet=lieu&facet=ville ';
+		
+		/**
+		 * Actual demo
+		 */
+
+		var demo = new Vue({
+
+		  el: '#demo',
+
+		  data: {
+		    events: null
+		  },
+
+		  created: function () {
+		    this.fetchData()
+		  },
+
+		  methods: {
+		    fetchData: function () {
+				var self = this;
+				axios.get(apiURL)
+				.then(function (response) {
+					self.events = response.data.records;
+					console.log(response.data.records);
+				})
+				.catch(function (error) {
+					console.log(error);
+				});  
+		    }
+		  }
+		})
+  	</script>
+  </body>
+</html>
